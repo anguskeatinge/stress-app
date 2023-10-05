@@ -67,13 +67,42 @@ const getFetcher =
 
 const ResultCircle: React.FC<{ score: number }> = ({ score }) => {
 	let color: string;
-	const big = Math.abs(score) > 4;
+	const big = Math.abs(score) > 5;
 	if (score > 2) {
-		color = big ? "bg-green-500" : "bg-green-500/60";
+		color = big
+			? classNames(
+					"from-green-500",
+					"to-green-600",
+					"hover:from-green-600",
+					"hover:to-green-700",
+			  )
+			: classNames(
+					"from-green-500/60",
+					"to-green-600/60",
+					"hover:from-green-600/60",
+					"hover:to-green-700/60",
+			  );
 	} else if (score < -2) {
-		color = big ? "bg-red-500" : "bg-red-500/60";
+		color = big
+			? classNames(
+					"from-red-500",
+					"to-red-600",
+					"hover:from-red-600",
+					"hover:to-red-700",
+			  )
+			: classNames(
+					"from-red-500/60",
+					"to-red-600/60",
+					"hover:from-red-600/60",
+					"hover:to-red-700/60",
+			  );
 	} else {
-		color = "bg-yellow-500/80";
+		color = classNames(
+			"from-yellow-500/80",
+			"to-yellow-600/80",
+			"hover:from-yellow-600/80",
+			"hover:to-yellow-700/80",
+		);
 	}
 
 	return (
@@ -82,12 +111,15 @@ const ResultCircle: React.FC<{ score: number }> = ({ score }) => {
 				"rounded-full",
 				"ease-out",
 				"transition-all",
+				"shadow-lg",
+				"bg-gradient-to-r",
+				"transform hover:scale-105",
 				color,
 				big ? "w-24 h-24" : "w-16 h-16",
 				big ? "duration-600" : "duration-300",
 			)}
 		>
-			<div className="text-center flex items-center justify-center h-full text-white">
+			<div className="text-center flex items-center justify-center h-full text-white font-bold text-lg">
 				{score}
 			</div>
 		</div>
@@ -95,13 +127,17 @@ const ResultCircle: React.FC<{ score: number }> = ({ score }) => {
 };
 
 type TypingAnimationProps = {
-	status: "good" | "middle" | "bad";
+	status: "weapon" | "good" | "decent" | "middle" | "bad" | "worse" | "dead";
 };
 
 const messageObject = {
-	good: "You're healthy!",
-	middle: "You're doing okay.",
-	bad: "You need improvement.",
+	weapon: "You are an absolute fucking weapon.",
+	good: "Solid effort!",
+	decent: "You're doing okay.",
+	middle: "You'll live.",
+	bad: "You need help.",
+	worse: "You're fucked mate.",
+	dead: "I'll call the morgue while you finish off that ciggy.",
 };
 
 const TypingAnimation: React.FC<TypingAnimationProps> = ({ status }) => {
@@ -256,10 +292,18 @@ const HealthComponent: React.FC = () => {
 						</div>
 						<TypingAnimation
 							status={
-								data.sleepScore < -3
+								data.sleepScore < -20
+									? "dead"
+									: data.sleepScore < -8
+									? "worse"
+									: data.sleepScore < -3
 									? "bad"
 									: data.sleepScore < 3
 									? "middle"
+									: data.sleepScore < 6
+									? "decent"
+									: data.sleepScore > 10
+									? "weapon"
 									: "good"
 							}
 						/>
