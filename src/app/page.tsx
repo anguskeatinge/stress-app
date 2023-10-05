@@ -185,40 +185,37 @@ const HealthComponent: React.FC = () => {
 				<div className="space-y-4">
 					{categories.map(({ id, label, options, description }) => (
 						<div
-							// className="flex items-center justify-between"
 							className="flex flex-col md:flex-row items-center justify-between mb-2 "
 							key={id}
 						>
 							<label
 								htmlFor={id}
-								// className="text-lg font-semibold mb-2 mr-2"
 								className="text-lg font-semibold md:mb-0 md:mr-2 w-full md:w-auto min-w-[250px]"
 							>
 								{label}
 							</label>
 
 							<div
-								// className="relative bg-white border rounded w-[280px] cursor-pointer"
-								className="relative bg-white border rounded w-full md:w-[280px] cursor-pointer mt-2 md:mt-0"
+								className="relative bg-white dark:bg-slate-800 border rounded w-full md:w-[280px] cursor-pointer mt-2 md:mt-0"
 								onClick={() => {
 									setOpenField(openField === id ? "" : id);
 								}}
 							>
-								<div className="p-2 pl-4 pr-8">
-									{formData[id] || description || "Select an option"}
-									{/* Display currently selected option text here */}
-								</div>
 								<ClickAway
 									onClickAway={() => {
 										if (openField === id) setOpenField("");
 									}}
 								>
+									<div className="p-2 pl-4 pr-8 hover:bg-blue-100 dark:hover:bg-blue-900 ">
+										{formData[id] || description || "Select an option"}
+									</div>
+
 									<div
-										className="absolute w-full border border-t-0 rounded-b z-10 bg-white"
+										className="absolute w-full border border-t-0 rounded-b z-10 bg-white dark:bg-slate-800"
 										style={{ display: openField !== id ? "none" : undefined }}
 									>
 										<div
-											className="cursor-pointer hover:bg-blue-100 p-2 pl-4"
+											className="cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-900 p-2 pl-4"
 											onClick={() => handleSelect(id, "")}
 										>
 											<div className="inline-block align-middle">
@@ -227,7 +224,7 @@ const HealthComponent: React.FC = () => {
 										</div>
 										{options.map((option, index) => (
 											<div
-												className="cursor-pointer hover:bg-blue-100 p-2 pl-4"
+												className="cursor-pointer hover:bg-blue-100 dark:hover:bg-blue-900 p-2 pl-4"
 												key={index}
 												onClick={() => handleSelect(id, option.text)}
 											>
