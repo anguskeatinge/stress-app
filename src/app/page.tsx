@@ -26,6 +26,7 @@ import React, { useState, useEffect, useRef } from "react";
 import useSWR from "swr";
 import classNames from "classnames";
 import { categories } from "@/lib/constants";
+import laggy from "@/lib/laggy";
 
 // const getFetcher =
 // 	(method: "GET" | "POST" | "PUT" | "DELETE") =>
@@ -195,9 +196,10 @@ const ClickAway: React.FC<{
 const HealthComponent: React.FC = () => {
 	const [openField, setOpenField] = useState("");
 	const [formData, setFormData] = useState<any>({});
-	const { data, error, mutate } = useSWR(
+	const { data, error } = useSWR(
 		["/checkHealth", formData],
 		getFetcher("POST"),
+		{ use: [laggy] },
 	);
 
 	const handleSelect = (key: string, value: string) => {
